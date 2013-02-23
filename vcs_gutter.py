@@ -11,7 +11,8 @@ class VcsGutterCommand(sublime_plugin.WindowCommand):
             # and it throws an error because self.view is None.
             # I have only been able to reproduce this in the following scenario:
             # you clicked on FileA in the sidebar (FileA is not previously open)
-            # not to open it but to preview it. While previewing it you press
+            # 
+            not to open it but to preview it. While previewing it you press
             # ctrl+` to open a console. With the console selected and the
             # unopened FileA preview showing in the window you click on another
             # unopened file, FileB to preview that file. There will be no active
@@ -52,23 +53,23 @@ class VcsGutterCommand(sublime_plugin.WindowCommand):
     def lines_removed_top(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.deleted'
-        icon = '../Vcs Gutter/icons/deleted_top'
+        icon = '../VCS Gutter/icons/deleted_top'
         self.view.add_regions('vcs_gutter_deleted_top', regions, scope, icon)
 
     def lines_removed_bottom(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.deleted'
-        icon = '../Vcs Gutter/icons/deleted_bottom'
+        icon = '../VCS Gutter/icons/deleted_bottom'
         self.view.add_regions('vcs_gutter_deleted_bottom', regions, scope, icon)
 
     def lines_added(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.inserted'
-        icon = '../Vcs Gutter/icons/inserted'
+        icon = '../VCS Gutter/icons/inserted'
         self.view.add_regions('vcs_gutter_inserted', regions, scope, icon)
 
     def lines_modified(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.changed'
-        icon = '../Vcs Gutter/icons/changed'
+        icon = '../VCS Gutter/icons/changed'
         self.view.add_regions('vcs_gutter_changed', regions, scope, icon)
