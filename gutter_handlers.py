@@ -2,8 +2,8 @@ import os
 import sublime
 import subprocess
 import re
-import vcs_helpers
-from view_collection import ViewCollection
+from . import vcs_helpers
+from .view_collection import ViewCollection
 
 
 class VcsGutterHandler(object):
@@ -46,7 +46,7 @@ class VcsGutterHandler(object):
         except UnicodeError:
             # Fallback to utf8-encoding
             contents = self.view.substr(region).encode('utf-8')
-    
+        contents = contents.decode('utf-8')
         contents = contents.replace('\r\n', '\n')
         contents = contents.replace('\r', '\n')
         f = open(self.buf_temp_file.name, 'w')
@@ -58,7 +58,7 @@ class VcsGutterHandler(object):
         region = sublime.Region(0, chars)
         lines = self.view.lines(region)
         lines_count = len(lines)
-        return range(1, lines_count + 1)
+        return list(range(1, lines_count + 1))
 
     def update_vcs_file(self):
         # the git repo won't change that often
@@ -68,7 +68,7 @@ class VcsGutterHandler(object):
             open(self.vcs_temp_file.name, 'w').close()
             args = self.get_diff_args()
             try:
-                contents = self.run_command(args)
+                contents = self.run_command(args).decode('utf-8')
                 contents = contents.replace('\r\n', '\n')
                 contents = contents.replace('\r', '\n')
                 f = open(self.vcs_temp_file.name, 'w')
@@ -78,11 +78,12 @@ class VcsGutterHandler(object):
             except Exception:
                 pass
 
-    def process_diff(self, diff_str):
+    def process_diff(self, diff_str_bytes):
         inserted = []
         modified = []
         deleted = []
         pattern = re.compile(r'(\d+),?(\d*)(.)(\d+),?(\d*)')
+        diff_str = diff_str_bytes.decode('utf-8')
         lines = diff_str.splitlines()
         for line in lines:
             m = pattern.match(line)
@@ -95,9 +96,9 @@ class VcsGutterHandler(object):
             else:
                 line_end = line_start
             if kind == 'c':
-                modified += range(line_start, line_end + 1)
+                modified += list(range(line_start, line_end + 1))
             elif kind == 'a':
-                inserted += range(line_start, line_end + 1)
+                inserted += list(range(line_start, line_end + 1))
             elif kind == 'd':
                 if line == 1:
                     deleted.append(line_start)

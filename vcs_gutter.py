@@ -1,6 +1,6 @@
 import sublime
 import sublime_plugin
-from view_collection import ViewCollection
+from .view_collection import ViewCollection
 
 
 class VcsGutterCommand(sublime_plugin.WindowCommand):
@@ -53,23 +53,23 @@ class VcsGutterCommand(sublime_plugin.WindowCommand):
     def lines_removed_top(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.deleted'
-        icon = '../VCS Gutter/icons/deleted_top'
+        icon = 'Packages/VCS Gutter/icons/deleted_top.png'
         self.view.add_regions('vcs_gutter_deleted_top', regions, scope, icon)
 
     def lines_removed_bottom(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.deleted'
-        icon = '../VCS Gutter/icons/deleted_bottom'
+        icon = 'Packages/VCS Gutter/icons/deleted_bottom.png'
         self.view.add_regions('vcs_gutter_deleted_bottom', regions, scope, icon)
 
     def lines_added(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.inserted'
-        icon = '../VCS Gutter/icons/inserted'
+        icon = 'Packages/VCS Gutter/icons/inserted.png'
         self.view.add_regions('vcs_gutter_inserted', regions, scope, icon)
 
     def lines_modified(self, lines):
         regions = self.lines_to_regions(lines)
         scope = 'markup.changed'
-        icon = '../VCS Gutter/icons/changed'
+        icon = 'Packages/VCS Gutter/icons/changed.png'
         self.view.add_regions('vcs_gutter_changed', regions, scope, icon)

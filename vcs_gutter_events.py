@@ -1,5 +1,5 @@
 import sublime_plugin
-from view_collection import ViewCollection
+from .view_collection import ViewCollection
 
 
 class VcsGutterEvents(sublime_plugin.EventListener):
